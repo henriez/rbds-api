@@ -1,15 +1,17 @@
+import { Inject, Injectable, Scope } from '@nestjs/common';
+import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
-import { DataSource, EntityManager, Repository } from 'typeorm';
-import { ENTITY_MANAGER_KEY } from '../../../common/interceptors/transaction.interceptor';
+import { BaseRepository } from 'src/common/base.repository';
+import { DataSource } from 'typeorm';
+import { Sample } from '../entities/sample.entity';
 
-export class BaseRepository {
-  constructor(
-    private dataSource: DataSource,
-    private request: Request,
-  ) {}
+@Injectable({ scope: Scope.REQUEST })
+export class SampleRepository extends BaseRepository {
+  constructor(dataSource: DataSource, @Inject(REQUEST) req: Request) {
+    super(dataSource, req);
+  }
 
-  protected getRepository<T>(entityCls: new () => T): Repository<T> {
-    const entityManager: EntityManager = this.request[ENTITY_MANAGER_KEY] ?? this.dataSource.manager;
-    return entityManager.getRepository(entityCls);
+  async getAllSamples() {
+    return await this.getRepository(Sample).find();
   }
 }
