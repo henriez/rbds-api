@@ -20,7 +20,7 @@ async function bootstrap() {
   );
   app.enableCors({
     origin: '*',
-    methods: ['GET', ' PUT'],
+    methods: ['GET', 'PUT'],
     allowedHeaders: ['Content-Type'],
   });
   const options = new DocumentBuilder()
@@ -36,7 +36,7 @@ async function bootstrap() {
     app.enableShutdownHooks();
   }
 
-  await app.listen(3000);
+  await app.listen(3000, '::');
 }
 
 bootstrap();
