@@ -18,9 +18,14 @@ async function bootstrap() {
       exceptionFactory: validationErrorFactory,
     }),
   );
+  app.enableCors({
+    origin: '*',
+    methods: ['GET', ' PUT'],
+    allowedHeaders: ['Content-Type'],
+  });
   const options = new DocumentBuilder()
-    .setTitle("Henriez's Nestjs template")
-    .setDescription('Template para APIs e microsserviços')
+    .setTitle("RBDS's api")
+    .setDescription('A API para atualização de strings para dispositivos RBDS')
     .setVersion('1.0')
     .build();
 

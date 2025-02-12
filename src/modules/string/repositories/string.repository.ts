@@ -3,15 +3,19 @@ import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { BaseRepository } from 'src/common/base.repository';
 import { DataSource } from 'typeorm';
-import { Sample } from '../entities/sample.entity';
+import { Str } from '../entities/str.entity';
 
 @Injectable({ scope: Scope.REQUEST })
-export class SampleRepository extends BaseRepository {
+export class StringRepository extends BaseRepository {
   constructor(dataSource: DataSource, @Inject(REQUEST) req: Request) {
     super(dataSource, req);
   }
 
-  async getAllSamples() {
-    return await this.getRepository(Sample).find();
+  async getString(): Promise<Str[]> {
+    return await this.getRepository(Str).find();
+  }
+
+  async save(str: Str): Promise<void> {
+    await this.getRepository(Str).save(str);
   }
 }
